@@ -1,7 +1,9 @@
-from utils.CustomLogger import CustomLogger
-from utils import ErrParser
+from .utils.CustomLogger import CustomLogger
+from .utils.ErrParserInfo import info
+from .utils import ErrParser
+from .utils.DBinfo import etc
 
-import utils.ErrParserInfo.info as ErrParserInfo
+import pymysql
 import inspect
 import pickle
 import gzip
@@ -18,10 +20,9 @@ class ErrorHandler:
 
 
     def DirCheck(self):
-        if not os.path.exists('./ErrorHandler'):
-            os.mkdir('./ErrorHandler/Data')
-            os.mkdir('./ErrorHandler/Data/EO')
-            os.mkdir('./ErrorHandler/Data/err')
+        if not os.path.exists('./Data'):
+            os.mkdir('./Data')
+            os.mkdir('./Data/EO')
 
 
     def loadData(self):
@@ -48,15 +49,14 @@ class ErrorHandler:
     def saveToPickle(self, data):
         self.CustomLogger.Log(contents='Save the new error list')
         # save and compress.
-        with gzip.open('./ErrorHandler/Data/err/ERROR_LIST.pkl', 'wb') as f:
+        with gzip.open('./Data/err/ERROR_LIST.pkl', 'wb') as f:
             pickle.dump(data, f)
 
 
     def loadPickle(self):
         self.CustomLogger.Log(contents='Loaded the saved err list')
-        with gzip.open('./ErrorHandler/Data/err/ERROR_LIST.pkl', 'rb') as f:
+        with gzip.open('./Data/err/ERROR_LIST.pkl', 'rb') as f:
             loaded = pickle.load(f)
-
         return loaded
 
 
@@ -65,7 +65,7 @@ class ErrorHandler:
         for ERR in ErrParserInfo.ERR_LIST:
             for Err_func in ErrParserInfo.ERR_INFO[ERR]:
                 func_name = ErrParserInfo.ERR_INFO[ERR]['func']
-                err_list.extend(eval(f"ErrParser.{func_name}()"))
-
+                temp = eval(f"ErrParser.{func_name}()")
+                err_list.extend(temp)
         return err_list
 
