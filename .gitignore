@@ -1,5 +1,6 @@
 *.pkl
 *.out
 *.pyc
+etc.py
 
 __pycache__
