@@ -1,25 +1,27 @@
 from .utils.DBinfo import etc
+from .utils.CustomLogger import CustomLogger
+from . ErrHandler import ErrorHandler
 import pymysql
 
 
 class DBHandler:
     def __init__(self):
+        self.DB_INFO = etc.DB_INFO
         self.CustomLogger = CustomLogger()
-        self.DB_INFO = self.selectDB()
+        self.ErrorHandler = ErrorHandler()
 
 
-    def selectDB(self, DB_NAME=None):
-        if DB_NAME in etc.DB_LIST:
-            return etc.DB_INFO[DB_NAME]
-
-
-    def conn(self):
-        conn = pymysql.connect(host=self.DB_INFO['host'],
-                               port=self.DB_INFO['port'],
-                               user=self.DB_INFO['user'],
-                               passwd=self.DB_INFO['passwd'],
-                               db=self.DB_INFO['db'])
-        return conn
+    def conn(self, DB_NAME):
+        try:
+            conn = pymysql.connect(host=self.DB_INFO[DB_NAME]['host'],
+                                port=self.DB_INFO[DB_NAME]['port'],
+                                user=self.DB_INFO[DB_NAME]['user'],
+                                passwd=self.DB_INFO[DB_NAME]['passwd'],
+                                db=self.DB_INFO[DB_NAME]['db'])
+            self.CustomLogger.Log(conn)
+            return conn
+        except Exception as conn_err:
+            self.ErrorHandler.Err_check(err_list=None, err_name=type(conn_err).__name__)
 
 
     def insert_db(self, input_rows, table_info):
@@ -41,7 +43,6 @@ class DBHandler:
             conn.close()
 
         except Exception as e:
-            self.CustomLogger.Log(contents=f'New errr Checked: {err_name}')
             print(e)
             conn.commit()
             conn.close()

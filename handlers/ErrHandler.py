@@ -1,7 +1,7 @@
 from .utils.CustomLogger import CustomLogger
-from .utils.ErrParserInfo import info
-from .utils import ErrParser
+from .utils.ErrParserInfo import info as ErrParserInfo
 from .utils.DBinfo import etc
+from .utils import ErrParser
 
 import pymysql
 import inspect
@@ -17,6 +17,7 @@ class ErrorHandler:
         self.loadedData = self.loadData()
         self.new_err_list = []
         self.CustomLogger = CustomLogger()
+        self.Err_list = self.Err_list()
 
 
     def DirCheck(self):
@@ -36,14 +37,17 @@ class ErrorHandler:
 
     def Err_check(self, err_list, err_name):
         """check the error is in the error list"""
+        if err_list is None:
+            err_list = self.Err_list
         if err_name in err_list:
-            return True
-        else:
             # new err_list
             self.new_err_list.append(err_name)
             self.saveToPickle(data=self.new_err_list)
-            self.CustomLogger.Log(contents=f'New errr Checked: {err_name}')
+            self.CustomLogger.Log(contents=f'Error Checked: {err_name}')
             return False
+        else:
+            self.CustomLogger.Log(contents=f'Unknown errr Checked: {err_name}')
+            return True
 
 
     def saveToPickle(self, data):
