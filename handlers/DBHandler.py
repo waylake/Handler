@@ -1,14 +1,12 @@
 from .utils.DBinfo import etc
 from .utils.CustomLogger import CustomLogger
-from . ErrHandler import ErrorHandler
+from .ErrHandler import ErrorHandler
 import pymysql
 
 
 class DBHandler:
     def __init__(self):
         self.DB_INFO = etc.DB_INFO
-        self.CustomLogger = CustomLogger()
-        self.ErrorHandler = ErrorHandler()
 
 
     def conn(self, DB_NAME):
@@ -18,10 +16,10 @@ class DBHandler:
                                 user=self.DB_INFO[DB_NAME]['user'],
                                 passwd=self.DB_INFO[DB_NAME]['passwd'],
                                 db=self.DB_INFO[DB_NAME]['db'])
-            self.CustomLogger.Log(conn)
+            CustomLogger().Log(f"{DB_NAME}: connection established!")
             return conn
         except Exception as conn_err:
-            self.ErrorHandler.Err_check(err_list=None, err_name=type(conn_err).__name__)
+            ErrorHandler().Err_check(err_list=None, err_name=type(conn_err).__name__)
 
 
     def insert_db(self, input_rows, table_info):

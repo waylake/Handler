@@ -15,7 +15,8 @@ class CustomLogger:
 
     def Config(self, log_name='LOG', log_dir='./log/log.out'):
         logger = logging.getLogger(log_name)
-        fomatter = logging.Formatter('[%(levelname)s|%(filename)s:%(lineno)s] %(asctime)s FunName:%(funcName)s > %(message)s')
+        fomatter = logging.Formatter('[%(levelname)s|%(filename)s:%(lineno)s] %(asctime)s \
+                                     > %(message)s')
         fileHandler = logging.FileHandler(log_dir)
         streamHandler = logging.StreamHandler()
         fileHandler.setFormatter(fomatter)

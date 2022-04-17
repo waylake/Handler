@@ -1,6 +1,7 @@
 from inspect import isclass
 import selenium.common.exceptions as selenium_exceptions
 import urllib3.exceptions as urllib3_exceptions
+import requests.exceptions as requests_exceptions
 
 
 def SeleniumErrList():
@@ -15,4 +16,11 @@ def Urllib3ErrList():
     urllib3_err = [x for x in dir(urllib3_exceptions) if isclass(
         getattr(urllib3_exceptions, x))]
     return urllib3_err
+
+
+def RequestsErrList():
+    Request_err = [x for x in dir(requests_exceptions) if isclass(
+        getattr(requests_exceptions, x))]
+    return Request_err
+
 

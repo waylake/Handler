@@ -1,4 +1,4 @@
-ERR_LIST = ['SeleniumErr', 'Urllib3Err']
+ERR_LIST = ['SeleniumErr', 'Urllib3Err', 'RequestErr']
 
 
 ERR_INFO = {
@@ -8,5 +8,9 @@ ERR_INFO = {
 
     'Urllib3Err': {
         'func': 'Urllib3ErrList'
-    }
+    },
+
+    'RequestErr':{
+        'func': 'RequestsErrList'
+    },
 }

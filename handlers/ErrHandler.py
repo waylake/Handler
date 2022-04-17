@@ -16,8 +16,6 @@ class ErrorHandler:
         self.DirCheck()
         self.loadedData = self.loadData()
         self.new_err_list = []
-        self.CustomLogger = CustomLogger()
-        self.Err_list = self.Err_list()
 
 
     def DirCheck(self):
@@ -35,7 +33,7 @@ class ErrorHandler:
             return data
 
 
-    def Err_check(self, err_list, err_name):
+    def Err_check(self, err_list, err_name: Exception):
         """check the error is in the error list"""
         if err_list is None:
             err_list = self.Err_list
@@ -43,22 +41,22 @@ class ErrorHandler:
             # new err_list
             self.new_err_list.append(err_name)
             self.saveToPickle(data=self.new_err_list)
-            self.CustomLogger.Log(contents=f'Error Checked: {err_name}')
+            CustomLogger().Log(contents=f'Error Checked: {err_name}')
             return False
         else:
-            self.CustomLogger.Log(contents=f'Unknown errr Checked: {err_name}')
+            CustomLogger().Log(contents=f'Unknown errr Checked: {err_name}')
             return True
 
 
     def saveToPickle(self, data):
-        self.CustomLogger.Log(contents='Save the new error list')
+        CustomLogger().Log(contents='Save the new error list')
         # save and compress.
         with gzip.open('./Data/err/ERROR_LIST.pkl', 'wb') as f:
             pickle.dump(data, f)
 
 
     def loadPickle(self):
-        self.CustomLogger.Log(contents='Loaded the saved err list')
+        CustomLogger().Log(contents='Loaded the saved err list')
         with gzip.open('./Data/err/ERROR_LIST.pkl', 'rb') as f:
             loaded = pickle.load(f)
         return loaded
