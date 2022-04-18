@@ -1,5 +1,5 @@
-from .handlers.DBHandler import DBHandler
-from .handlers.ErrHandler import ErrorHandler
+from .models.DBHandler import DBHandler
+from .models.ErrHandler import ErrorHandler
 
 
 class Handlers:

@@ -1,4 +1,5 @@
 from inspect import isclass
+
 import selenium.common.exceptions as selenium_exceptions
 import urllib3.exceptions as urllib3_exceptions
 import requests.exceptions as requests_exceptions
