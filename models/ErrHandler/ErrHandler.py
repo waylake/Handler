@@ -1,7 +1,7 @@
-from .utils.CustomLogger import CustomLogger
-from .utils.ErrParserInfo import info as ErrParserInfo
-from .utils.DBinfo import etc
-from .utils import ErrParser
+from ..utils.CustomLogger import CustomLogger
+from ..utils.ErrParserInfo import info as ErrParserInfo
+from ..utils.DBinfo import etc
+from ..utils import ErrParser
 
 import pymysql
 import inspect
@@ -11,7 +11,7 @@ import sys
 import os
 
 
-class ErrorHandler:
+class ErrHandler:
     def __init__(self):
         self.DirCheck()
         self.loadedData = self.loadData()

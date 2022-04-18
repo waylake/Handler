@@ -1,6 +1,6 @@
-from .utils.DBinfo import etc
-from .utils.CustomLogger import CustomLogger
-from .ErrHandler import ErrorHandler
+from ..utils.DBinfo import etc
+from ..utils.CustomLogger import CustomLogger
+from ..ErrHandler import ErrHandler
 import pymysql
 
 
@@ -19,7 +19,7 @@ class DBHandler:
             CustomLogger().Log(f"{DB_NAME}: connection established!")
             return conn
         except Exception as conn_err:
-            ErrorHandler().Err_check(err_list=None, err_name=type(conn_err).__name__)
+            ErrHandler().Err_check(err_list=None, err_name=type(conn_err).__name__)
 
 
     def insert_db(self, input_rows, table_info):
