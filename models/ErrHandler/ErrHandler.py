@@ -2,6 +2,8 @@ from ..utils.CustomLogger import CustomLogger
 from ..utils.ErrParserInfo import info as ErrParserInfo
 from ..utils.DBinfo import etc
 from ..utils import ErrParser
+from .utils.utils import Utils
+from .utils import info
 
 import pymysql
 import inspect
@@ -13,54 +15,14 @@ import os
 
 class ErrHandler:
     def __init__(self):
-        self.DirCheck()
+        self.utils = Utils(info=info)
+        self.utils.check_dir()
         self.loadedData = self.loadData()
         self.new_err_list = []
 
-
-    def DirCheck(self):
-        if not os.path.exists('./Data'):
-            os.mkdir('./Data')
-            os.mkdir('./Data/EO')
-
-
-    def loadData(self):
-        try:
-            data = self.loadPickle()
-            return data
-        except:
-            data = None
-            return data
-
-
-    def Err_check(self, err_list, err_name: Exception):
+    def Err_check(self, err_name: Exception):
         """check the error is in the error list"""
-        if err_list is None:
-            err_list = self.Err_list
-        if err_name in err_list:
-            # new err_list
-            self.new_err_list.append(err_name)
-            self.saveToPickle(data=self.new_err_list)
-            CustomLogger().Log(contents=f'Error Checked: {err_name}')
-            return False
-        else:
-            CustomLogger().Log(contents=f'Unknown errr Checked: {err_name}')
-            return True
-
-
-    def saveToPickle(self, data):
-        CustomLogger().Log(contents='Save the new error list')
-        # save and compress.
-        with gzip.open('./Data/err/ERROR_LIST.pkl', 'wb') as f:
-            pickle.dump(data, f)
-
-
-    def loadPickle(self):
-        CustomLogger().Log(contents='Loaded the saved err list')
-        with gzip.open('./Data/err/ERROR_LIST.pkl', 'rb') as f:
-            loaded = pickle.load(f)
-        return loaded
-
+        CustomLogger().Log(contents=f'Error Checked: {err_name}')
 
     def Err_list(self):
         err_list = []
