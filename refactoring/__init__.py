@@ -1,1 +1,1 @@
-from .main import DBHandler
+from .main import Handler

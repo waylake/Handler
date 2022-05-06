@@ -1,4 +1,4 @@
-from info import _database
+from .info import _database
 import pymysql
 
 
@@ -12,12 +12,16 @@ class Utils:
                                    port=self._info.db_info[db_name]['port'],
                                    user=self._info.db_info[db_name]['user'],
                                    passwd=self._info.db_info[db_name]['passwd'],
-                                   db=self._info.db_info[db_name]['db_name'])
+                                   db=db_name)
+            print('connected')
             return conn
         except Exception as e:
+            print('err')
             print(e)
 
-    def insert_db(self, input_rows, table_info):
+    def insert_db(self, input_rows, input_conn, table_info):
+        _conn = input_conn
+        _curs = _conn.cursor()
         table_name = table_info['table_info']
         table_scheme = table_info['scheme']
         scheme_format = tuple(table_scheme)
@@ -25,8 +29,6 @@ class Utils:
         values_format = tuple(values_format)
 
         try:
-            _conn = self.conn('RAW')
-            _curs = _conn.cursor()
             for row in input_rows:
                 sql = "INSERT INTO RAW.{}".format(table_name) + \
                     "({})".format(",\n ".join(scheme_format)) + \
