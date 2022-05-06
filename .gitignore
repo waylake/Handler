@@ -1,7 +1,7 @@
 *.pkl
 *.out
 *.pyc
-DB_info.py
+_database.py
 tags
 
 __pycache__
