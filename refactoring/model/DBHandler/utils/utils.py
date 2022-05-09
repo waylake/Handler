@@ -1,4 +1,3 @@
-from typing import List
 from .info import _database
 import pymysql
 from tqdm import tqdm
@@ -74,7 +73,8 @@ class Utils:
                 _conn.commit()
                 _conn.close()
 
-    def max_length_check(self, rows):
+    @classmethod
+    def max_length_check(cls, rows):
         """
         get each element's max length from rows
         """
@@ -89,3 +89,4 @@ class Utils:
                     row_lens[row_idx] = row_element_len
 
         return row_lens
+
